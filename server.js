@@ -1,6 +1,6 @@
 const webpack              = require('webpack');
-//const webpackDevMiddleware = require('webpack-dev-middleware');
-//const webpackHotMiddleware = require('webpack-hot-middleware');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
 const app                  = new (require('express'));
 const chalk                = require('chalk');
 const globalConfig         = require('./config/global');
@@ -32,33 +32,33 @@ switch (process.env.NODE_ENV) {
         break;
 }
 
-//if (process.env.NODE_ENV === 'localdev') {
-//    console.log('not ENV production')
-//
-//    const compiler = webpack(webpackConfig);
-//    app.use(webpackDevMiddleware(compiler, {
-//        noInfo: false,
-//        quiet: false,
-//        publicPath: webpackConfig.output.publicPath,
-//        stats: {
-//            chunks: false,
-//            colors: true
-//        },
-//        reporter: true
-//    }));
-//    app.use(webpackHotMiddleware(compiler));
-//
-//    app.get("*", (req, res, next) => {
-//        compiler.outputFileSystem.readFile(HTML_FILE, (err, result) => {
-//            if (err) {
-//                return next(err);
-//            }
-//            res.set('content-type', 'text/html');
-//            res.send(result);
-//            res.end();
-//        });
-//    });
-//}
+if (process.env.NODE_ENV === 'localdev') {
+    console.log('not ENV production')
+
+    const compiler = webpack(webpackConfig);
+    app.use(webpackDevMiddleware(compiler, {
+        noInfo: false,
+        quiet: false,
+        publicPath: webpackConfig.output.publicPath,
+        stats: {
+            chunks: false,
+            colors: true
+        },
+        reporter: true
+    }));
+    app.use(webpackHotMiddleware(compiler));
+
+    app.get("*", (req, res, next) => {
+        compiler.outputFileSystem.readFile(HTML_FILE, (err, result) => {
+            if (err) {
+                return next(err);
+            }
+            res.set('content-type', 'text/html');
+            res.send(result);
+            res.end();
+        });
+    });
+}
 
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging' || process.env.NODE_ENV === 'development') {
     //app.use(function(req, res, next){
