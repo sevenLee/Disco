@@ -13,7 +13,7 @@ const path = require('path');
 const DIST_DIR  = path.join(__dirname, "dist");
 const HTML_FILE = path.join(DIST_DIR, "index.html");
 
-const port        = globalConfig.expressPort;
+const PORT        = process.env.PORT || globalConfig.expressPort;
 let webpackConfig = {}
 
 switch (process.env.NODE_ENV) {
@@ -76,7 +76,7 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging' 
 //  res.sendFile(__dirname + '/index.html')
 //})
 
-app.listen(port, function (error) {
+app.listen(PORT, function (error) {
     if (error) {
         console.log(error);
     } else {
@@ -85,7 +85,7 @@ app.listen(port, function (error) {
             console.log('\n')
             console.log(chalk.bgBlack(" => run Express... => Webpack start building..."));
         }else{
-            console.log(chalk.bgBlack(` => Express on ${port}..`));
+            console.log(chalk.bgBlack(` => Express on ${PORT}..`));
         }
 
         console.log(chalk.green(" => Node Env: ") + chalk.green(process.env.NODE_ENV));
