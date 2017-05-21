@@ -1,0 +1,1 @@
+import '../../../../assets/vendors/modernizr/modernizr.custom.js'
