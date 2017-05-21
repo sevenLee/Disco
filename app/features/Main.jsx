@@ -30,6 +30,10 @@ class Main extends Component {
                                         <img src={logoImg} className="img-responsive"/>
                                     </div>
                                 </div>
+                                <div>
+
+                                    <a className="btn btn-block btn-default" href="https://api.instagram.com/oauth/authorize/?client_id=9f7d8bdab0194595821d743a508b1239&redirect_uri=http://www.discograms.com/&response_type=token">Login</a>
+                                </div>
                                 <div className="brand-info clearfix">
                                     <div className="brand-info-part promo-title text-center">
                                         <h1>¥ 500,000</h1>
