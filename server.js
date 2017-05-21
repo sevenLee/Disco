@@ -1,6 +1,6 @@
 const webpack              = require('webpack');
 //const webpackDevMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
+//const webpackHotMiddleware = require('webpack-hot-middleware');
 const app                  = new (require('express'));
 const chalk                = require('chalk');
 const globalConfig         = require('./config/global');
