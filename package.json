@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run clean && npm run build:prod && NODE_ENV=production node server.js",
+    "start": "NODE_ENV=production node server.js",
     "start:localdev": "NODE_ENV=localdev node server.js",
+    "build": "npm run clean && npm run build:prod",
     "build:dev": "webpack --config ./config/webpack.config.dev.js --progress",
     "build:staging": "webpack --config ./config/webpack.config.staging.js --progress",
     "build:prod": "webpack --config ./config/webpack.config.prod.js --progress",
