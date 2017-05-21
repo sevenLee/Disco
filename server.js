@@ -68,6 +68,8 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging' 
     //        res.redirect('http://' + req.hostname + req.url);
     //    }
     //});
+    app.use(express.static(DIST_DIR));
+
     /* Redirect http to https */
     app.get('*', function(req,res,next) {
         if(req.headers['x-forwarded-proto'] != 'https' && process.env.NODE_ENV === 'production')
@@ -75,7 +77,7 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging' 
         else
             next(); /* Continue to other routes if we're not redirecting */
     });
-    app.use(express.static(DIST_DIR));
+
     app.get("*", (req, res) => res.sendFile(HTML_FILE));
 }
 
