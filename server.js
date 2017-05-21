@@ -61,12 +61,19 @@ if (process.env.NODE_ENV === 'localdev') {
 }
 
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging' || process.env.NODE_ENV === 'development') {
-    app.use(function(req, res, next){
-        if(req.headers['x-forwarded-proto'] === 'http'){
-            next();
-        }else{
-            res.redirect('http://' + req.hostname + req.url);
-        }
+    //app.use(function(req, res, next){
+    //    if(req.headers['x-forwarded-proto'] === 'http'){
+    //        next();
+    //    }else{
+    //        res.redirect('http://' + req.hostname + req.url);
+    //    }
+    //});
+    /* Redirect http to https */
+    app.get('*', function(req,res,next) {
+        if(req.headers['x-forwarded-proto'] != 'https' && process.env.NODE_ENV === 'production')
+            res.redirect('https://'+req.hostname+req.url);
+        else
+            next(); /* Continue to other routes if we're not redirecting */
     });
     app.use(express.static(DIST_DIR));
     app.get("*", (req, res) => res.sendFile(HTML_FILE));
