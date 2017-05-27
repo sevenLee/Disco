@@ -8,7 +8,6 @@ import RankingTabsCT from './RankingTabsCT'
 import Countdown from '../common/components/Countdown/Countdown'
 
 import logoImg from '../../assets/imgs/logo_word.png'
-import decoratorImg from '../../assets/imgs/frame.png'
 
 const cardStyle = {
     marginBottom: 30,
