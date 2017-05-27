@@ -1,6 +1,6 @@
 module.exports = {
     MOCK_HOST: 'http://bo-fake-api-development.getsandbox.com',
-    API_HOST: 'http://172.16.50.32:8083',
+    API_HOST: 'http://api.instagram.com',
     LOGIN_HOST: 'http://172.16.50.32:8081',
     XGenesisPartnerToken :'f84e1be2-3b37-bba7-52ab-c0229c41ac36', //production
     BO_API_HOST : 'https://pthbo.star0ad.com',
