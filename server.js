@@ -34,6 +34,15 @@ switch (process.env.NODE_ENV) {
         break;
 }
 
+
+app.use(function(req, res, next) {
+    //for CORS
+    res.header('Access-Control-Allow-Origin', 'http://api.instagram.com');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, X-Auth-Appkey, X-Auth-Apptoken, X-Auth-Usertoken, X-Access-Token');
+
+    next();
+});
+
 if (process.env.NODE_ENV === 'localdev') {
     console.log('not ENV production')
 
