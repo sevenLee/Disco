@@ -91,7 +91,9 @@ class RankingTableCT extends PureComponent {
         return (
             <div>
                 <button onClick={() => this.handleClick()}>Get Users</button>
-                {users.map((elm, index) => <div key={index}>{elm.id}</div>)}
+                {users &&
+                    users.map((elm, index) => <div key={index}>{elm.id}</div>)
+                }
             </div>
         )
     }
