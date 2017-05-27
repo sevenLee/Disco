@@ -67,7 +67,7 @@ const apiService = (dispatch, endpoint, method = 'get', params, host = API_HOST,
     let finalConfig = {
         headers: finalHeaders,
         cache: 'no-store',
-        mode: 'cors',
+        mode: 'no-cors',
         method,
         body
     }
