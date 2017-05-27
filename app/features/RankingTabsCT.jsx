@@ -7,23 +7,23 @@ import Rule from './Rule'
 import AwardTable from './AwardTable'
 
 // actions
-import * as RankingsAction from '../redux/actions/Rankings/action'
+//import * as RankingsAction from '../redux/actions/Rankings/action'
 
 const TabPane = Tabs.TabPane
 
 
-const action = {
-    getRankings: RankingsAction.getRankings
-}
+//const action = {
+//    getRankings: RankingsAction.getRankings
+//}
 
 
 class RankingTabsCT extends PureComponent {
 
     handleTabsChange(key) {
-        console.log('key:', key)
-        if(key === '1') {
-            this.props.getRankings()
-        }
+        //console.log('key:', key)
+        //if(key === '1') {
+        //    this.props.getRankings()
+        //}
     }
 
     render() {
@@ -33,18 +33,16 @@ class RankingTabsCT extends PureComponent {
 
         return (
             <Tabs onChange={(key) => this.handleTabsChange(key)}>
-                <TabPane tab="擂台排行榜" key="1">
+                <TabPane tab="Dancing 🎵" key="1">
                     <RankingTableCT />
                 </TabPane>
-                <TabPane tab="擂台规则" key="2">
+                <TabPane tab="規則" key="2">
                     <Rule />
                 </TabPane>
-                <TabPane tab="派彩" key="3">
-                    <AwardTable />
-                </TabPane>
+
             </Tabs>
         )
     }
 }
 
-export default connect(null, action)(RankingTabsCT)
+export default connect(null, null)(RankingTabsCT)

@@ -7,7 +7,7 @@ import BasePage from '../common/components/Layout/BasePage'
 import RankingTabsCT from './RankingTabsCT'
 import Countdown from '../common/components/Countdown/Countdown'
 
-import logoImg from '../../assets/imgs/logo.png'
+import logoImg from '../../assets/imgs/logo_word.png'
 import decoratorImg from '../../assets/imgs/frame.png'
 
 const cardStyle = {
@@ -19,43 +19,31 @@ const cardStyle = {
 
 class Main extends Component {
     render() {
+        /*
+         https://www.instagram.com/oauth/authorize/?client_id={CLIENT_ID}&redirect_uri={REDIRECT_URL}&response_type=token&scope=public_content+follower_list+likes
+
+        * */
+
         return (
             <BasePage >
                 <div className="promo-container">
                     <div className="promo-section">
                         <Row >
-                            <Col xs={24} sm={14} lg={14} key="main">
-                                <div className="text-center top-title p-xl">
-                                    <div className="brand-logo">
-                                        <img src={logoImg} className="img-responsive"/>
-                                    </div>
-                                </div>
-                                <div>
-                                    <a className="btn btn-block btn-default" href="https://api.instagram.com/oauth/authorize/?client_id=9f7d8bdab0194595821d743a508b1239&redirect_uri=http://www.discograms.com/&response_type=code">Login</a>
-                                    <a className="btn btn-block btn-default" >Login2</a>
-                                </div>
-                                <div className="brand-info clearfix">
-                                    <div className="brand-info-part promo-title text-center">
-                                        <h1>¥ 500,000</h1>
-                                        <h2>人民币总奖金</h2>
-                                        <h3 className="sub-white-text">额外 30 份幸运奖<br/>
-                                        每份 5,000 人民币 等着幸运玩家赢取</h3>
-                                    </div>
-                                    <div className="brand-info-part time">
-                                        <div className="duration sub-white-text">
-                                            <h4>开始日</h4>
-                                            <h3>01/03/2017 8 AM</h3>
-                                            <h4>终了日</h4>
-                                            <h3>28/12/2017 8 AM</h3>
+                            <Col xs={24} sm={24} lg={10} key="main">
+                                <div className="p-lg">
+                                    <div className="text-center top-title p-xl">
+                                        <div className="brand-logo">
+                                            <img src={logoImg} className="img-responsive"/>
                                         </div>
-                                        <div className="timer">
-                                            <h4>距离当天结束时间:</h4>
-                                            <Countdown endDate={moment().endOf('day')} stopDate={moment().add(360, 's')} />
-                                        </div>
+                                    </div>
+                                    <div>
+                                        <a className="btn btn-block btn-info btn-lg" href="https://api.instagram.com/oauth/authorize/?client_id=9f7d8bdab0194595821d743a508b1239&redirect_uri=http://www.discograms.com/&response_type=token">IG Login</a>
+                                        <a className="btn btn-block btn-info btn-lg" href="https://api.instagram.com/oauth/authorize/?client_id=9f7d8bdab0194595821d743a508b1239&redirect_uri=http://www.discograms.com/&response_type=token&scope=public_content+follower_list+likes">IG 2 Login</a>
+                                        <a className="mt-lg btn btn-block btn-primary btn-lg" >Fetch Data</a>
                                     </div>
                                 </div>
                             </Col>
-                            <Col xs={24} sm={10} lg={10} key="tabs">
+                            <Col xs={24} sm={24} lg={14} key="tabs">
                                 <div className="m-lg" >
                                     <Card bordered={false}
                                           style={cardStyle}>
@@ -65,9 +53,6 @@ class Main extends Component {
                             </Col>
                         </Row>
                     </div>
-                </div>
-                <div className="promo-decorator">
-                    <img src={decoratorImg} className="img-responsive"/>
                 </div>
             </BasePage>
         )

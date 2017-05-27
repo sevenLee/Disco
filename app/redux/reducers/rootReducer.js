@@ -2,10 +2,10 @@ import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
 // Import Reducers
-import rankings from './Rankings'
+import user from './User'
 
 const appReducer = combineReducers({
-    rankings,
+    user,
     routing: routerReducer
 });
 

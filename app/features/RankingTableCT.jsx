@@ -1,25 +1,18 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import RankingTable from '../common/components/RankingTable/RankingTable'
+import { withRouter } from 'react-router'
 
 // selectors
-import { getRankingRows, isFetchingSelector } from '../redux/reducers/Rankings'
+import { getUsersSelector, isFetchingSelector } from '../redux/reducers/User'
 
 // actions
-import * as RankingsAction from '../redux/actions/Rankings/action'
+import * as UserAction from '../redux/actions/User/action'
 
 const action = {
-    getRankings: RankingsAction.getRankings
+    getUsers: UserAction.getUsers
 }
 
-let columnsScope = [{
-    title: '别名',
-    dataIndex: 'userId',
-    width: '60%',
-}, {
-    title: '排榜',
-    dataIndex: 'rankingIndex'
-}]
+
 // const pagination = { pageSize: 50, simple: true }
 const pagination = false
 const scroll = { y: '60vh' }
@@ -33,7 +26,7 @@ class RankingTableCT extends PureComponent {
     }
 
     componentDidMount() {
-        this.fetchData()
+        //this.fetchData()
     }
 
     shouldComponentUpdate(){
@@ -42,11 +35,32 @@ class RankingTableCT extends PureComponent {
     }
 
     fetchData() {
-        this.props.getRankings()
+        //this.props.getRankings()
+    }
+
+    parseHash(hash){
+        let oauthObj = {};
+        const queryString = hash.substring(1);
+        const regex = /([^#?&=]+)=([^&]*)/g;
+        let match;
+
+        while ((match = regex.exec(queryString)) !== null) {
+            oauthObj[decodeURIComponent(match[1])] = decodeURIComponent(match[2]);
+        }
+        return oauthObj;
+    }
+
+    handleClick() {
+        //const token = this.props.location.query.token
+        const oauthObj = this.parseHash(this.props.location.hash)
+        console.log('location:', location)
+        console.log('oauthObj:', oauthObj)
+
+        this.props.getUsers({q: 'eshowshow', access_token: oauthObj.access_token})
     }
 
     render() {
-        const { rankingRows, isFetching } = this.props
+        const { users, isFetching } = this.props
         console.log('***** Re-render RankingTableCT*******');
 
 
@@ -76,11 +90,8 @@ class RankingTableCT extends PureComponent {
 
         return (
             <div>
-                <RankingTable
-                    dataSource={rankingRows}
-                    scroll={scroll}
-                    pagination={pagination}
-                />
+                <button onClick={() => this.handleClick()}>Get Users</button>
+                {users.map((elm, index) => <div key={index}>{elm.id}</div>)}
             </div>
         )
     }
@@ -89,9 +100,9 @@ class RankingTableCT extends PureComponent {
 const mapStateToProps = (state) => {
     console.log('mapStateToProps state:', state)
     return {
-        rankingRows: getRankingRows(state),
+        users: getUsersSelector(state),
         isFetching: isFetchingSelector(state),
     }
 }
 
-export default connect(mapStateToProps, action)(RankingTableCT)
+export default withRouter(connect(mapStateToProps, action)(RankingTableCT))
