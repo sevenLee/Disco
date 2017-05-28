@@ -67,13 +67,13 @@ const apiService = (dispatch, endpoint, method = 'get', params, host = API_HOST,
     let finalConfig = {
         headers: finalHeaders,
         cache: 'no-store',
-        mode: 'no-cors',
+        mode: 'cors',
         method,
         body
     }
     finalConfig = Object.assign({}, finalConfig, config)
 
-    return new Promise((resolve,reject)=> {
+    return new Promise((resolve)=> {
         let requestPromise = Promise.race([
             fetch(`${host}/${endpoint}`, finalConfig),
             new Promise(function (resolve, reject) {
@@ -84,14 +84,24 @@ const apiService = (dispatch, endpoint, method = 'get', params, host = API_HOST,
         requestPromise
             .then(response => {
                 let resolveDataPromise
+                console.log('@@response:', response)
 
-                if(file === 'csv'){
-                    resolveDataPromise =  response.text()
-                } else{
-                    resolveDataPromise =  response.json()
+                if (response.type === 'opaque') {
+                    return Promise.reject(response);
+                } else {
+                    // do something else
+                    if(file === 'csv'){
+                        resolveDataPromise =  response.text()
+                    } else{
+                        resolveDataPromise =  response.json()
+                    }
+
+                    return resolveDataPromise.then(responsePayloadData => ({responsePayloadData, response}))
                 }
 
-                return resolveDataPromise.then(responsePayloadData => ({responsePayloadData, response}))
+
+
+
             })
             .then(({ responsePayloadData, response }) => {
                 /*eslint-disable no-process-env*/
@@ -116,7 +126,7 @@ const apiService = (dispatch, endpoint, method = 'get', params, host = API_HOST,
             )
             .catch((err) => {
                 console.log('in fetch catch:', err)
-                reject(err)
+                Promise.reject(err)
             })
     })
 }
