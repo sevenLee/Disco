@@ -56,7 +56,7 @@ class RankingTableCT extends PureComponent {
         console.log('location:', location)
         console.log('oauthObj:', oauthObj)
 
-        this.props.getUsers({q: 'eshowshow', access_token: oauthObj.access_token})
+        this.props.getUsers({q: 'eshowshow', access_token: '4988264296.9f7d8bd.2d449d35ad7e44d191385f8d8e495989'})
     }
 
     render() {
