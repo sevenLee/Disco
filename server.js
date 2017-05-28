@@ -35,13 +35,14 @@ switch (process.env.NODE_ENV) {
 }
 
 
-app.use(function(req, res, next) {
-    //for CORS
-    res.header('Access-Control-Allow-Origin', 'http://api.instagram.com');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, X-Auth-Appkey, X-Auth-Apptoken, X-Auth-Usertoken, X-Access-Token');
-
-    next();
-});
+//app.use(function(req, res, next) {
+//    console.log('***Cors req.header ***:', req.header)
+//    for CORS
+//    res.header('Access-Control-Allow-Origin', 'http://api.instagram.com');
+//    res.header('Access-Control-Allow-Headers', 'Content-Type, X-Auth-Appkey, X-Auth-Apptoken, X-Auth-Usertoken, X-Access-Token');
+//
+//    next();
+//});
 
 if (process.env.NODE_ENV === 'localdev') {
     console.log('not ENV production')
@@ -82,12 +83,12 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging' 
     app.use(express.static(DIST_DIR));
 
     /* Redirect http to https */
-    app.get('*', function(req,res,next) {
-        if(req.headers['x-forwarded-proto'] != 'https' && process.env.NODE_ENV === 'production')
-            res.redirect('https://'+req.hostname+req.url);
-        else
-            next(); /* Continue to other routes if we're not redirecting */
-    });
+    //app.get('*', function(req,res,next) {
+    //    if(req.headers['x-forwarded-proto'] != 'https' && process.env.NODE_ENV === 'production')
+    //        res.redirect('https://'+req.hostname+req.url);
+    //    else
+    //        next(); /* Continue to other routes if we're not redirecting */
+    //});
 
     app.get("*", (req, res) => res.sendFile(HTML_FILE));
 }

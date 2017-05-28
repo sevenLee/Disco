@@ -63,17 +63,20 @@ const apiService = (dispatch, endpoint, method = 'get', params, host = API_HOST,
         console.log(e)
     }
 
-    const finalHeaders = Object.assign({}, {'content-type': 'application/json'}, nextHeaders)
+    const finalHeaders = Object.assign({}, {
+        'content-type': 'multipart/form-data',
+        'Access-Control-Allow-Origin':'*'
+    }, nextHeaders)
     let finalConfig = {
         headers: finalHeaders,
-        cache: 'no-store',
+        //cache: 'no-store',
         mode: 'cors',
         method,
         body
     }
     finalConfig = Object.assign({}, finalConfig, config)
 
-    return new Promise((resolve)=> {
+    return new Promise((resolve, reject)=> {
         let requestPromise = Promise.race([
             fetch(`${host}/${endpoint}`, finalConfig),
             new Promise(function (resolve, reject) {
@@ -115,19 +118,25 @@ const apiService = (dispatch, endpoint, method = 'get', params, host = API_HOST,
                     if(response.status === 401 || response.status === 403){
                         console.warn('response.status')
                     }
-                    return Promise.reject(responsePayloadData);
+                    reject(responsePayloadData);
                 }
                 return responsePayloadData;
             })
             .then(
                 response => {
-                    resolve(response)
+                    let resp = typeof response === 'string' ? JSON.parse(response) : response;
+                    //console.log(resp);
+                    resolve(resp); //这个resp会被外部接收
+
+                    //resolve(response)
                 }
             )
             .catch((err) => {
                 console.log('in fetch catch:', err)
-                Promise.reject(err)
+                reject(err)
             })
+    }).catch(err => {
+        console.log('Wrongggggg:', err)
     })
 }
 
