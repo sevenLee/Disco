@@ -24,7 +24,7 @@ export const getUsers = (params) => (dispatch, getState) => {
         return Promise.resolve()
     }
     dispatch(fetchingUsers())
-    let promise = apiService(dispatch, apiFactory.User.getUsers(), 'get', params)
+    apiService(dispatch, apiFactory.User.getUsers(), 'get', params)
         .then(res => {
             if(res) {
                 /*eslint-disable no-console*/
@@ -33,10 +33,18 @@ export const getUsers = (params) => (dispatch, getState) => {
                 return res
             }
         }).catch((err) => {
-        console.log('err:', err)
-            dispatch(fetchErrorUsers(err.message))
+            let errorMsg = ''
+            if(err) {
+                errorMsg = err.message
+            }else{
+                errorMsg = 'Somthing Error'
+            }
+
+            dispatch(fetchErrorUsers(errorMsg))
+            //Promise.resolve()
+
         })
-    return promise
+    //return promise
 }
 
 

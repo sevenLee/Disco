@@ -3,14 +3,34 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const app                  = new (require('express'));
 const chalk                = require('chalk');
+const fs = require('fs');
+const cors = require('cors');
+
+const morgan = require('morgan');
+
 const globalConfig         = require('./config/global');
 
 const express   = require('express');
 const apiRouter = express.Router();
 const path = require('path');
-const igDownload = require('instagram-download')
 
-// igDownload()
+
+const request = require('superagent');
+const timeout = require('connect-timeout');
+const bodyParser = require('body-parser')
+
+
+//这里从环境变量读取配置，方便命令行启动
+const HOST = 'https://www.instagram.com'
+//超时时间
+const TIME_OUT = 30 * 1e3;
+
+//设置超时 返回超时响应
+app.use(timeout(TIME_OUT));
+app.use(bodyParser());
+app.use((req, res, next) => {
+    if (!req.timedout) next();
+});
 
 const DIST_DIR  = path.join(__dirname, "dist");
 const HTML_FILE = path.join(DIST_DIR, "index.html");
@@ -36,13 +56,44 @@ switch (process.env.NODE_ENV) {
 
 
 //app.use(function(req, res, next) {
-//    console.log('***Cors req.header ***:', req.header)
-//    for CORS
+//    res.header("Access-Control-Allow-Origin", "*");
+//    res.header("Access-Control-Allow-Credentials", true);
+//    res.header("Access-Control-Allow-Methods", 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//    next();
+//});
+
+app.options('*', cors())
+
+//app.use(function(req, res, next) {
 //    res.header('Access-Control-Allow-Origin', 'http://api.instagram.com');
 //    res.header('Access-Control-Allow-Headers', 'Content-Type, X-Auth-Appkey, X-Auth-Apptoken, X-Auth-Usertoken, X-Access-Token');
 //
 //    next();
 //});
+
+//var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'));
+//app.use(morgan('common', {stream: accessLogStream}));
+//app.use(morgan('combined'));
+
+//app.use('v1/users/search', function (req, res) {
+//    //获得方法类型
+//    const method = req.method.toLowerCase();
+//    const sreq = request[method](HOST + req.originalUrl);
+//    //如果为 post 或者 put 则需要发送时传递body
+//    if (method === 'post' || method === 'put') {
+//        sreq.set('Content-Type', 'application/json')
+//            .send(req.body)
+//    }
+//    sreq.pipe(res);
+//    sreq.on('end', function (error, result) {
+//        if (error) {
+//            console.log(error);
+//            return;
+//        }
+//    });
+//});
+
 
 if (process.env.NODE_ENV === 'localdev') {
     console.log('not ENV production')

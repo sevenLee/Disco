@@ -36,7 +36,7 @@ class Main extends Component {
                                         </div>
                                     </div>
                                     <div>
-                                        <a className="btn btn-block btn-info btn-lg" href="https://api.instagram.com/oauth/authorize/?client_id=9f7d8bdab0194595821d743a508b1239&redirect_uri=http://localhost:3000/&response_type=token&scope=public_content+follower_list+likes">IG 2 Login redirect locall 3000</a>
+                                        <a className="btn btn-block btn-info btn-lg" href="https://www.instagram.com/oauth/authorize/?client_id=9f7d8bdab0194595821d743a508b1239&redirect_uri=http://localhost:3000/&response_type=token&scope=public_content+follower_list+likes">IG 2 Login redirect locall 3000</a>
                                         <a className="btn btn-block btn-info btn-lg" href="https://api.instagram.com/oauth/authorize/?client_id=9f7d8bdab0194595821d743a508b1239&redirect_uri=http://www.discograms.com/&response_type=token&scope=public_content+follower_list+likes">IG 2 Login redirect www.discograms.com</a>
                                         <a className="mt-lg btn btn-block btn-primary btn-lg" >Fetch Data</a>
                                     </div>
