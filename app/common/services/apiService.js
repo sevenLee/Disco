@@ -63,20 +63,17 @@ const apiService = (dispatch, endpoint, method = 'get', params, host = API_HOST,
         console.log(e)
     }
 
-    const finalHeaders = Object.assign({}, {
-        'content-type': 'text/plain',
-        'Accept': 'application/json'
-    }, nextHeaders)
+    const finalHeaders = Object.assign({}, {'content-type': 'application/json'}, nextHeaders)
     let finalConfig = {
         headers: finalHeaders,
-        //cache: 'no-store',
-        mode: 'cors',
+        cache: 'no-store',
+        mode: 'no-cors',
         method,
         body
     }
     finalConfig = Object.assign({}, finalConfig, config)
 
-    return new Promise((resolve, reject)=> {
+    return new Promise((resolve,reject)=> {
         let requestPromise = Promise.race([
             fetch(`${host}/${endpoint}`, finalConfig),
             new Promise(function (resolve, reject) {
@@ -85,77 +82,40 @@ const apiService = (dispatch, endpoint, method = 'get', params, host = API_HOST,
         ])
 
         requestPromise
-            .then(function(response) {
+            .then(response => {
                 let resolveDataPromise
-                console.log('@@response:', response)
-
-                if (response.type === 'opaque') {
-                        console.log('opaqueopaqueopaque')
-                        return Promise.reject()
-
-                } else {
-                    console.log('GooooooooGod')
-
-                    // do something else
-                    if(file === 'csv'){
-                        resolveDataPromise =  response.text()
-                    } else{
-                        resolveDataPromise =  response.json()
-                    }
-
-                    return resolveDataPromise.then(responsePayloadData => {
-                        console.log('GooooooooGod22')
-
-                        resolve({
-                            responsePayloadData,
-                            response
-                        })
-                    })
+                if(file === 'csv'){
+                    resolveDataPromise =  response.text()
+                } else{
+                    resolveDataPromise =  response.json()
                 }
+
+                return resolveDataPromise.then(responsePayloadData => ({responsePayloadData, response}))
+            })
+            .then(({ responsePayloadData, response }) => {
+                /*eslint-disable no-process-env*/
+                if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'localdev') {
+                    /*eslint-disable no-console*/
+                    console.log('response:', response)
+                    console.log('responsePayloadData:', responsePayloadData)
+                }
+
+                if (!response.ok) {
+                    if(response.status === 401 || response.status === 403){
+                        console.warn('response.status')
+                    }
+                    return Promise.reject(responsePayloadData);
+                }
+                return responsePayloadData;
             })
             .then(
-
-                function(fromStep1Value){
-
-                    debugger
-
-                    if(!fromStep1Value) {
-                        return Promise.resolve(reject())
-                    }
-
-
-                    /*eslint-disable no-process-env*/
-                    if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'localdev') {
-                        /*eslint-disable no-console*/
-                        console.log('response:', fromStep1Value.response)
-                        console.log('responsePayloadData:', fromStep1Value.responsePayloadData)
-                    }
-
-                    if (!fromStep1Value.response.ok) {
-                        if(fromStep1Value.response.status === 401 || fromStep1Value.response.status === 403){
-                            console.warn('response.status')
-                        }
-                        reject(fromStep1Value.responsePayloadData);
-                    }
-                    return fromStep1Value.responsePayloadData;
-                }
-            )
-            .then(
                 response => {
-                    if(!response) {
-                        return Promise.resolve(reject())
-                    }
-
-                    let resp = typeof response === 'string' ? JSON.parse(response) : response;
-                    //console.log(resp);
-                    resolve(resp); //这个resp会被外部接收
-
-                    //resolve(response)
+                    resolve(response)
                 }
             )
             .catch((err) => {
                 console.log('in fetch catch:', err)
-                return Promise.resolve(reject(err))
+                reject(err)
             })
     })
 }

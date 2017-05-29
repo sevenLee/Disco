@@ -19,20 +19,21 @@ const fetchErrorUsers = (error) => ({
 })
 
 
-export const getUsers = (params) => (dispatch, getState) => {
+export const getUsers = () => (dispatch, getState) => {
     if(isFetchingSelector(getState())) {
         return Promise.resolve()
     }
     dispatch(fetchingUsers())
-    apiService(dispatch, apiFactory.User.getUsers(), 'get', params)
+    return apiService(dispatch, apiFactory.User.getUsers(), 'get')
         .then(res => {
             if(res) {
                 /*eslint-disable no-console*/
                 console.log('resres:', res)
                 dispatch(fetchedUsers(res.data))
-                return res
+                return Promise.resolve(res.data)
             }
         }).catch((err) => {
+            console.log('last err:', err)
             let errorMsg = ''
             if(err) {
                 errorMsg = err.message

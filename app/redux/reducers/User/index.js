@@ -53,7 +53,7 @@ export const isFetchingSelector = (state) => {
     return state.user.isFetching
 }
 
-export const getUsersSelector = state => state.user.users
+export const getUserIdsSelector = state => state.user.userIds
 
 //export const getRankingRows = createSelector(
 //    getAllRankings,

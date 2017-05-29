@@ -15,7 +15,7 @@ const apiRouter = express.Router();
 const path = require('path');
 
 
-const request = require('superagent');
+const superagent = require('superagent');
 const timeout = require('connect-timeout');
 const bodyParser = require('body-parser')
 
@@ -63,7 +63,7 @@ switch (process.env.NODE_ENV) {
 //    next();
 //});
 
-app.options('*', cors())
+//app.options('*', cors())
 
 //app.use(function(req, res, next) {
 //    res.header('Access-Control-Allow-Origin', 'http://api.instagram.com');
@@ -76,23 +76,16 @@ app.options('*', cors())
 //app.use(morgan('common', {stream: accessLogStream}));
 //app.use(morgan('combined'));
 
-//app.use('v1/users/search', function (req, res) {
-//    //获得方法类型
-//    const method = req.method.toLowerCase();
-//    const sreq = request[method](HOST + req.originalUrl);
-//    //如果为 post 或者 put 则需要发送时传递body
-//    if (method === 'post' || method === 'put') {
-//        sreq.set('Content-Type', 'application/json')
-//            .send(req.body)
-//    }
-//    sreq.pipe(res);
-//    sreq.on('end', function (error, result) {
-//        if (error) {
-//            console.log(error);
-//            return;
-//        }
-//    });
-//});
+app.get('/api/users', function (req, res) {
+    var sreq = superagent.get('https://api.instagram.com/v1/users/search?q=eshowshow&access_token=4988264296.9f7d8bd.2d449d35ad7e44d191385f8d8e495989');
+    sreq.pipe(res);
+    sreq.on('end', function (error, result) {
+        if (error) {
+            console.log(error);
+            return;
+        }
+    });
+});
 
 
 if (process.env.NODE_ENV === 'localdev') {
@@ -110,6 +103,11 @@ if (process.env.NODE_ENV === 'localdev') {
         reporter: true
     }));
     app.use(webpackHotMiddleware(compiler));
+
+
+
+
+
 
     app.get("*", (req, res, next) => {
         compiler.outputFileSystem.readFile(HTML_FILE, (err, result) => {
@@ -140,6 +138,28 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging' 
     //    else
     //        next(); /* Continue to other routes if we're not redirecting */
     //});
+    //app.use('v1/users/search', function (req, res) {
+    //    console.log('GEEEEE')
+    //
+    //    //获得方法类型
+    //    const method = req.method.toLowerCase();
+    //    const sreq = request[method](HOST + req.originalUrl);
+    //    //如果为 post 或者 put 则需要发送时传递body
+    //    if (method === 'post' || method === 'put') {
+    //        sreq.set('Content-Type', 'application/json')
+    //            .send(req.body)
+    //    }
+    //    sreq.pipe(res);
+    //    sreq.on('end', function (error, result) {
+    //        if (error) {
+    //            console.log(error);
+    //            return;
+    //        }
+    //    });
+    //});
+
+
+
 
     app.get("*", (req, res) => res.sendFile(HTML_FILE));
 }

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 
 // selectors
-import { getUsersSelector, isFetchingSelector } from '../redux/reducers/User'
+import { getUserIdsSelector, isFetchingSelector } from '../redux/reducers/User'
 
 // actions
 import * as UserAction from '../redux/actions/User/action'
@@ -56,11 +56,15 @@ class RankingTableCT extends PureComponent {
         console.log('location:', location)
         console.log('oauthObj:', oauthObj)
 
-        this.props.getUsers({q: 'eshowshow', access_token: '4988264296.9f7d8bd.2d449d35ad7e44d191385f8d8e495989'})
+        this.props.getUsers().then((v) => {
+            console.log('vvvv:', v)
+        })
+
+        //this.props.getUsers({q: 'eshowshow', access_token: '4988264296.9f7d8bd.2d449d35ad7e44d191385f8d8e495989'})
     }
 
     render() {
-        const { users, isFetching } = this.props
+        const { userIds, isFetching } = this.props
         console.log('***** Re-render RankingTableCT*******');
 
 
@@ -91,8 +95,8 @@ class RankingTableCT extends PureComponent {
         return (
             <div>
                 <button onClick={() => this.handleClick()}>Get Users</button>
-                {users &&
-                    users.map((elm, index) => <div key={index}>{elm.id}</div>)
+                {userIds &&
+                    userIds.map((elm, index) => <div key={index}>{elm}</div>)
                 }
             </div>
         )
@@ -102,7 +106,7 @@ class RankingTableCT extends PureComponent {
 const mapStateToProps = (state) => {
     console.log('mapStateToProps state:', state)
     return {
-        users: getUsersSelector(state),
+        userIds: getUserIdsSelector(state),
         isFetching: isFetchingSelector(state),
     }
 }
