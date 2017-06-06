@@ -34,7 +34,7 @@ class IgNameSearchCT extends Component {
         saveIgName(this.igNameInputDom.value)
 
         if (typeof window !== 'undefined') {
-            window.location.href = "https://www.instagram.com/oauth/authorize/?client_id=9f7d8bdab0194595821d743a508b1239&redirect_uri=http://localhost:3000/&response_type=token&scope=public_content+follower_list+likes";
+            window.location.href = "https://www.instagram.com/oauth/authorize/?client_id=9f7d8bdab0194595821d743a508b1239&redirect_uri=http://www.discograms.com/&response_type=token&scope=public_content+follower_list+likes";
         }
 
         //window.location.href('https://www.instagram.com/oauth/authorize/?client_id=9f7d8bdab0194595821d743a508b1239&redirect_uri=http://localhost:3000/&response_type=token&scope=public_content+follower_list+likes')
