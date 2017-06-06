@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 
 // selectors
-import { getUserIdsSelector, isFetchingSelector } from '../redux/reducers/User'
+import { getMediaImages, isFetchingSelector } from '../redux/reducers/User'
 
 // actions
 import * as UserAction from '../redux/actions/User/action'
 
-const action = {
-    getUsers: UserAction.getUsers
-}
+//const action = {
+//    getUsers: UserAction.getUsers
+//}
 
 
 // const pagination = { pageSize: 50, simple: true }
@@ -58,13 +58,15 @@ class RankingTableCT extends PureComponent {
 
         this.props.getUsers().then((v) => {
             console.log('vvvv:', v)
+            // todo: getUserInfo
+            // todo: getUserImages
         })
 
         //this.props.getUsers({q: 'eshowshow', access_token: '4988264296.9f7d8bd.2d449d35ad7e44d191385f8d8e495989'})
     }
 
     render() {
-        const { userIds, isFetching } = this.props
+        const { mediaImages, isFetching } = this.props
         console.log('***** Re-render RankingTableCT*******');
 
 
@@ -94,9 +96,8 @@ class RankingTableCT extends PureComponent {
 
         return (
             <div>
-                <button onClick={() => this.handleClick()}>Get Users</button>
-                {userIds &&
-                    userIds.map((elm, index) => <div key={index}>{elm}</div>)
+                {mediaImages &&
+                    mediaImages.map((elm, index) => <img key={index} src={elm.low_resolution.url}/>)
                 }
             </div>
         )
@@ -106,9 +107,9 @@ class RankingTableCT extends PureComponent {
 const mapStateToProps = (state) => {
     console.log('mapStateToProps state:', state)
     return {
-        userIds: getUserIdsSelector(state),
+        mediaImages: getMediaImages(state),
         isFetching: isFetchingSelector(state),
     }
 }
 
-export default withRouter(connect(mapStateToProps, action)(RankingTableCT))
+export default withRouter(connect(mapStateToProps, null)(RankingTableCT))

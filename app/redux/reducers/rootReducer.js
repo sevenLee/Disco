@@ -2,10 +2,10 @@ import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
 // Import Reducers
-import user from './User'
+import media from './User'
 
 const appReducer = combineReducers({
-    user,
+    media,
     routing: routerReducer
 });
 

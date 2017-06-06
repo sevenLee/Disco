@@ -1,13 +1,15 @@
 import { combineReducers } from 'redux'
-//import { createSelector } from 'reselect'
+import { createSelector } from 'reselect'
 
-const users = (state = null, action) => {
+const mediaObj = (state = null, action) => {
     switch (action.type) {
-        case 'FETCHED_USERS':
+        case 'FETCHED_USER_SELF_MEDIA':
         {
             const nextState = {}
-            action.response.forEach((user) => {
-                nextState[user.id] = user
+            /*eslint-disable no-console*/
+            console.log('action.response:', action.response)
+            action.response.forEach((media) => {
+                nextState[media.id] = media
             })
             return nextState
         }
@@ -16,57 +18,69 @@ const users = (state = null, action) => {
     }
 }
 
-const userIds = (state = [], action) => {
+const mediaIds = (state = [], action) => {
     switch (action.type) {
-        case 'FETCHED_USERS':
+        case 'FETCHED_USER_SELF_MEDIA':
         {
-            return action.response.map(user => user.id)
+            return action.response.map(media => media.id)
         }
         default:
             return state;
     }
 }
 
+//const userName = (state = '', action) => {
+//    switch(action.type) {
+//        case 'INPUT_USER_NAME':
+//        {
+//            return action.name
+//        }
+//        default:
+//            return state
+//    }
+//}
+
 const isFetching = (state = false, action) => {
     switch (action.type) {
-        case 'FETCHING_USERS':
+        case 'FETCHING_USER_SELF_MEDIA':
             return true
-        case 'FETCHED_USERS':
+        case 'FETCHED_USER_SELF_MEDIA':
             return false
-        case 'FETCH_ERROR_USERS':
+        case 'FETCH_ERROR__USER_SELF_MEDIA':
             return  false
         default:
             return state
     }
 }
 
-const user = combineReducers({
-    users,
-    userIds,
+const media = combineReducers({
+    mediaObj,
+    mediaIds,
     isFetching
 })
 
-export default user
+export default media
 
 // state is global state
 export const isFetchingSelector = (state) => {
-    return state.user.isFetching
+    return state.media.isFetching
 }
 
-export const getUserIdsSelector = state => state.user.userIds
+export const getMediaObjSelector = state => state.media.mediaObj
+export const getMediaIdsSelector = state => state.media.mediaIds
 
-//export const getRankingRows = createSelector(
-//    getAllRankings,
-//    (all) => {
-//        if(all === null) {
-//            return null
-//        }
-//
-//        return Object.keys(all).map(id => {
-//            return all[id]
-//        })
-//    }
-//)
+export const getMediaImages = createSelector(
+    [getMediaObjSelector, getMediaIdsSelector],
+    (mediaObj, mediaIds) => {
+        if(mediaObj === null) {
+            return null
+        }
+
+        return mediaIds.map(id => {
+            return mediaObj[id].images
+        })
+    }
+)
 
 // export const getRankingRows = (state) => {
 //     if(state.rankings.all === null) {

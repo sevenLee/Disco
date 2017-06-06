@@ -18,6 +18,21 @@ const fetchErrorUsers = (error) => ({
     error
 })
 
+const fetchingUserSelfMedia = () => ({
+    type: 'FETCHING_USER_SELF_MEDIA'
+})
+
+const fetchedUserSelfMedia = (response) => ({
+    type: 'FETCHED_USER_SELF_MEDIA',
+    response
+})
+
+const fetchErrorUserSelfMedia = (error) => ({
+    type: 'FETCH_ERROR__USER_SELF_MEDIA',
+    error
+})
+
+
 
 export const getUsers = () => (dispatch, getState) => {
     if(isFetchingSelector(getState())) {
@@ -38,14 +53,40 @@ export const getUsers = () => (dispatch, getState) => {
             if(err) {
                 errorMsg = err.message
             }else{
-                errorMsg = 'Somthing Error'
+                errorMsg = 'Something Error'
             }
 
             dispatch(fetchErrorUsers(errorMsg))
-            //Promise.resolve()
 
         })
-    //return promise
+}
+
+export const getUserSelfMedia = (act) => (dispatch, getState) => {
+    if(isFetchingSelector(getState())) {
+        return Promise.resolve()
+    }
+    dispatch(fetchingUserSelfMedia())
+
+    return apiService(dispatch, apiFactory.User.getUserSelfMedia(), 'get', {accessToken: act})
+        .then(res => {
+            if(res) {
+                /*eslint-disable no-console*/
+                console.log('resres:', res)
+                dispatch(fetchedUserSelfMedia(res.data))
+                //return Promise.resolve(res.data)
+            }
+        }).catch((err) => {
+            console.log('last err:', err)
+            let errorMsg = ''
+            if(err) {
+                errorMsg = err.message
+            }else{
+                errorMsg = 'Something Error'
+            }
+
+            dispatch(fetchErrorUserSelfMedia(errorMsg))
+
+        })
 }
 
 

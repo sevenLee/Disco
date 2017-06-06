@@ -76,8 +76,36 @@ switch (process.env.NODE_ENV) {
 //app.use(morgan('common', {stream: accessLogStream}));
 //app.use(morgan('combined'));
 
+app.get('/api/oauth/local', function (req, res, next) {
+    console.log('oauth query:', req.query)
+    var sreq = superagent.get('https://www.instagram.com/oauth/authorize/?client_id=9f7d8bdab0194595821d743a508b1239&redirect_uri=http://www.discograms.com/&response_type=token&scope=public_content+follower_list+likes');
+    sreq.pipe(res);
+    sreq.on('end', function (error, result) {
+        if (error) {
+            return next(error);
+        }
+
+        res.send(result);
+    });
+});
+
 app.get('/api/users', function (req, res) {
     var sreq = superagent.get('https://api.instagram.com/v1/users/search?q=eshowshow&access_token=4988264296.9f7d8bd.2d449d35ad7e44d191385f8d8e495989');
+    sreq.pipe(res);
+    sreq.on('end', function (error, result) {
+        if (error) {
+            console.log(error);
+            return;
+        }
+    });
+});
+
+app.get('/api/users/self/media', function (req, res) {
+    console.log('media query:', req.query)
+
+    const act = req.query.accessToken
+
+    var sreq = superagent.get('https://api.instagram.com/v1/users/self/media/recent/?access_token='+ act);
     sreq.pipe(res);
     sreq.on('end', function (error, result) {
         if (error) {

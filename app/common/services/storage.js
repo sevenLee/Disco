@@ -1,4 +1,12 @@
 import {fromJS} from 'immutable'
+export const getIgName = () => {
+  return getStorage('disco-igname')
+}
+
+export const saveIgName = (data) => {
+  saveStorage('disco-igname', data)
+}
+
 export const getAct = () => {
   return getStorage('act')
 }
