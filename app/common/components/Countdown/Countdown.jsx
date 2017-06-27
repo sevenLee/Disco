@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import moment from 'moment'
+import { hasDiffStateWithShallowEqual } from '../../helpers'
 
 
 // props.endDate: <Moment>
@@ -25,6 +26,22 @@ class Countdown extends Component {
         this.stop()
     }
 
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     console.log('Countdown props:', this.props)
+    //     console.log('Countdown nextProps:', nextProps)
+    //     const checkNewState = [
+    //         'days', 'hours', 'min', 'sec'
+    //     ]
+    //     // hasDiffStateWithShallowEqual
+    //     if(hasDiffStateWithShallowEqual(this, nextState, checkNewState)){
+    //         console.log('has last one state is diff --> Countdown update view')
+    //         return true
+    //     } else{
+    //         console.log('in final return false ---> Countdown will not update')
+    //         return false
+    //     }
+    // }
+
     formatTwoDigits(num) {
         return String(num).length < 2 ? '0' + num : '' + num
     }
@@ -40,7 +57,7 @@ class Countdown extends Component {
 
         const years = duration.years()
         const days = duration.days()
-        const hours = Math.floor(duration.asHours())
+        const hours = Math.floor(duration.hours())
         const min = duration.minutes()
         const sec = duration.seconds()
 
@@ -58,16 +75,16 @@ class Countdown extends Component {
 
     render(){
         return (
-             <h2>
-                 <b>{this.state.days}</b>
-                 <span>日</span>
+            <h2 className="countdown">
+                <b>{this.state.days}</b>
+                <span>天</span>
 
-                 <b style={{marginLeft: 15}}>{this.state.hours}</b>
-                 <span>：</span>
-                 <b>{this.state.min}</b>
-                 <span>：</span>
-                 <b>{this.state.sec}</b>
-             </h2>
+                <b style={{marginLeft: 15}}>{this.state.hours}</b>
+                <span>：</span>
+                <b>{this.state.min}</b>
+                <span>：</span>
+                <b>{this.state.sec}</b>
+            </h2>
         )
     }
 }
