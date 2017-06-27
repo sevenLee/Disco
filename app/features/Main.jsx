@@ -3,6 +3,7 @@ import { Row, Col } from 'antd'
 import { Tabs, Card, Icon, Input, Button, Checkbox, Select } from 'antd'
 import moment from 'moment'
 import { withRouter } from 'react-router'
+import CountdownCT from './CountdownCT'
 
 
 
@@ -22,12 +23,7 @@ const cardStyle = {
 
 
 class Main extends Component {
-
-
-
     render() {
-
-
         /*
          https://www.instagram.com/oauth/authorize/?client_id={CLIENT_ID}&redirect_uri={REDIRECT_URL}&response_type=token&scope=public_content+follower_list+likes
          <div>
@@ -40,30 +36,34 @@ class Main extends Component {
         return (
             <BasePage >
                 <div className="promo-container">
-                    <div className="promo-section">
-                        <Row >
-                            <Col xs={24} sm={24} lg={10} key="main">
-                                <div className="p-lg">
-                                    <div className="text-center top-title p-xl">
-                                        <div className="brand-logo">
-                                            <img src={logoImg} className="img-responsive"/>
-                                        </div>
-                                    </div>
-
-                                    <IgNameSearchCT />
-
-                                </div>
-                            </Col>
-                            <Col xs={24} sm={24} lg={14} key="tabs">
-                                <div className="m-lg" >
-                                    <Card bordered={false}
-                                          style={cardStyle}>
-                                        <RankingTableCT />
-                                    </Card>
-                                </div>
-                            </Col>
-                        </Row>
+                    <div className="countdown-container">
+                        <h3>離<b>[天空創意節]</b>第一階段公佈還剩</h3>
+                        <CountdownCT />
                     </div>
+                    {/*<div className="promo-section">*/}
+                        {/*<Row >*/}
+                            {/*<Col xs={24} sm={24} lg={10} key="main">*/}
+                                {/*<div className="p-lg">*/}
+                                    {/*<div className="text-center top-title p-xl">*/}
+                                        {/*<div className="brand-logo">*/}
+                                            {/*<img src={logoImg} className="img-responsive"/>*/}
+                                        {/*</div>*/}
+                                    {/*</div>*/}
+
+                                    {/*<IgNameSearchCT />*/}
+
+                                {/*</div>*/}
+                            {/*</Col>*/}
+                            {/*<Col xs={24} sm={24} lg={14} key="tabs">*/}
+                                {/*<div className="m-lg" >*/}
+                                    {/*<Card bordered={false}*/}
+                                          {/*style={cardStyle}>*/}
+                                        {/*<RankingTableCT />*/}
+                                    {/*</Card>*/}
+                                {/*</div>*/}
+                            {/*</Col>*/}
+                        {/*</Row>*/}
+                    {/*</div>*/}
                 </div>
             </BasePage>
         )
